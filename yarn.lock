@@ -1032,6 +1032,14 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
+"@callstack/react-theme-provider@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.7.tgz#b7ce1a53d63ad5e83574b831ae0af6b7c6cc40e7"
+  integrity sha512-Ab6rbD2w4u9W3yf7LQQ8evx9m8fZNsoWxt+MFm3AyZnyKQNCJf4K7ip9tHHZgSs+HTdoj38lEqPehvFOVQKvAg==
+  dependencies:
+    deepmerge "^3.2.0"
+    hoist-non-react-statics "^3.3.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1431,6 +1439,11 @@
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/clipboard/-/clipboard-1.5.1.tgz#32abb3ea2eb91ee3f9c5fb1d32d5783253c9fabe"
   integrity sha512-AHAmrkLEH5UtPaDiRqoULERHh3oNv7Dgs0bTC0hO5Z2GdNokAMPT5w8ci8aMcRemcwbtdHjxChgtjbeA38GBdA==
+
+"@react-native-community/masked-view@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
+  integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -2199,7 +2212,7 @@ color-string@^1.6.0:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
-color@^3.1.3:
+color@^3.1.2, color@^3.1.3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -2655,6 +2668,13 @@ expo-keep-awake@~10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.0.0.tgz#275a3e02f99bc0429790047add126c1dcce60d63"
   integrity sha512-x5zRTjIvSry/EISKvjWpnLERGZj5maCwEouOfiDk0JPa0UTg/zFkT7pmiadAfHT95XUgjjb2DOku+wj6J7el7Q==
+
+expo-linear-gradient@~10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-10.0.3.tgz#06ad72e164f5bf36c4afcfc8ccd31138a3a78d6e"
+  integrity sha512-zKkBhHvTvDywpb0y5BJDHTbxX5/2C60qW/M8uyZXKIZcTUwY7j/9Kcx0YzoNNglq7p6aQ/DWO7sM8LHr93985Q==
+  dependencies:
+    expo-modules-core "~0.4.4"
 
 expo-modules-autolinking@~0.3.4:
   version "0.3.4"
@@ -4738,6 +4758,25 @@ react-native-gesture-handler@~1.10.2:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-iphone-x-helper@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
+  integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-linear-gradient@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
+  integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
+
+react-native-paper@^4.10.1:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.10.1.tgz#aafbc83747a503c8b4cce634aa20a7eb4be8c1d2"
+  integrity sha512-FcwfYyIbhD7bqDy01d0kVL1+T+gjMA1OVMJw3rN7GbUCHRJWI2guEXptNF4QCYiuR80X3WowqxXl6CZPs1757Q==
+  dependencies:
+    "@callstack/react-theme-provider" "^3.0.7"
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.3.1"
+
 react-native-safe-area-context@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.3.2.tgz#9549a2ce580f2374edb05e49d661258d1b8bcaed"
@@ -4756,6 +4795,11 @@ react-native-screens@~3.8.0:
   integrity sha512-lHrnB/elAoMJKv8O12U6BLgeup4lB6ZKJHEOVuG/D72nv/OE9wUusbou6YCB5tp3YbaSpHflPnkFmHA/vCejpw==
   dependencies:
     warn-once "^0.1.0"
+
+react-native-status-bar-height@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.6.0.tgz#b6afd25b6e3d533c43d0fcdcfd5cafd775592cea"
+  integrity sha512-z3SGLF0mHT+OlJDq7B7h/jXPjWcdBT3V14Le5L2PjntjjWM3+EJzq2BcXDwV+v67KFNJic5pgA26cCmseYek6w==
 
 react-native-web@0.17.1:
   version "0.17.1"

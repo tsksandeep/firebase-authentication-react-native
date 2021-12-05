@@ -1,8 +1,7 @@
 export const phoneNumberValidator = (phoneNumber: string) => {
-  const re = RegExp("^[6-9]\\d{9}$");
+  const re = /^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{8,16})$/;
   if (!phoneNumber) return "Phone number can't be empty.";
-  if (!re.test(phoneNumber))
-    return "Ooops! We need a valid indian phone number (10 digits)";
+  if (!re.test(phoneNumber)) return "Ooops! We need a valid phone number";
   return "";
 };
 

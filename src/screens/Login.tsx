@@ -39,7 +39,7 @@ const Login = () => {
     try {
       const phoneProvider = new PhoneAuthProvider(FirebaseAuth);
       const verificationId = await phoneProvider.verifyPhoneNumber(
-        "+91 " + phoneNumber.value,
+        phoneNumber.value,
         recaptchaVerifier.current
       );
       navigation.navigate("Otp", { verificationId: verificationId });

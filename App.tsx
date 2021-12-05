@@ -15,7 +15,9 @@ declare global {
   type RootStackParamList = {
     // undefined is used as we are not passing parameters
     Home: undefined;
-    Otp: undefined;
+    Otp: {
+      verificationId: string;
+    };
     Login: undefined;
     Register: undefined;
     Dashboard: undefined;

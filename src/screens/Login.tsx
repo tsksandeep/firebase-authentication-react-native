@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { css } from "@emotion/native";
+import { PhoneAuthProvider } from "firebase/auth";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 
 import Logo from "../components/Logo/Logo";
 import Button from "../components/Button/Button";
@@ -11,23 +13,52 @@ import BackButton from "../components/BackButton/BackButton";
 import GradientText from "../components/GradientText/GradientText";
 import { theme } from "../core/theme";
 import { phoneNumberValidator } from "../helpers/helpers";
+import { FirebaseApp, FirebaseAuth } from "../firebase/config";
 
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const recaptchaVerifier = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState({ value: "", error: "" });
 
-  const onLoginPressed = () => {
+  const onLoginPressed = async () => {
     const phoneNumberError = phoneNumberValidator(phoneNumber.value);
     if (phoneNumberError) {
       setPhoneNumber({ ...phoneNumber, error: phoneNumberError });
       return;
     }
-    navigation.navigate("Otp");
+
+    if (recaptchaVerifier.current === null) {
+      setPhoneNumber({
+        ...phoneNumber,
+        error: "Sorry we had a technical issue",
+      });
+      return;
+    }
+
+    try {
+      const phoneProvider = new PhoneAuthProvider(FirebaseAuth);
+      const verificationId = await phoneProvider.verifyPhoneNumber(
+        "+91 " + phoneNumber.value,
+        recaptchaVerifier.current
+      );
+      navigation.navigate("Otp", { verificationId: verificationId });
+    } catch (err) {
+      setPhoneNumber({
+        ...phoneNumber,
+        error: "Sorry we had a technical issue",
+      });
+      return;
+    }
   };
 
   return (
     <View style={LoginStyle.container}>
+      <FirebaseRecaptchaVerifierModal
+        ref={recaptchaVerifier}
+        firebaseConfig={FirebaseApp.options}
+        attemptInvisibleVerification={true}
+      />
       <BackButton />
       <Logo />
       <GradientText style={LoginStyle.header}>Welcome Back</GradientText>

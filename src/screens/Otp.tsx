@@ -4,13 +4,29 @@ import OTPInputView from "@twotalltotems/react-native-otp-input";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { css } from "@emotion/native";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 
 import Logo from "../components/Logo/Logo";
 import BackButton from "../components/BackButton/BackButton";
 import GradientText from "../components/GradientText/GradientText";
+import { FirebaseAuth } from "../firebase/config";
 
-const Otp = () => {
+const Otp = (props: any) => {
+  const verificationId = props.route.params.verificationId;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const onCodeFilled = async (code: string) => {
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, code);
+      await signInWithCredential(FirebaseAuth, credential);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Dashboard" }],
+      });
+    } catch (err) {
+      console.log("error");
+    }
+  };
 
   return (
     <View style={OtpStyleComponent.container}>
@@ -25,12 +41,7 @@ const Otp = () => {
         codeInputFieldStyle={OtpStyleComponent.codeInputField}
         codeInputHighlightStyle={OtpStyleComponent.codeInputFieldHighLight}
         autoFocusOnLoad
-        onCodeFilled={() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Dashboard" }],
-          });
-        }}
+        onCodeFilled={onCodeFilled}
       />
       <TouchableOpacity
         style={OtpStyleComponent.resendOtpWrapper}

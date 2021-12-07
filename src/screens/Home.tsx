@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { css } from "@emotion/native";
@@ -9,33 +9,59 @@ import Logo from "../components/Logo/Logo";
 import GradientText from "../components/GradientText/GradientText";
 import { FirebaseAuth } from "../firebase/config";
 import AuthComponent from "../components/Auth/Auth";
+import { readUserData, UserData, UserNotExistsError } from "../firebase/db";
 
 const Home = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   let [fontsLoaded] = useFonts({
     Pacifico: require("../assets/fonts/Pacifico.ttf"),
   });
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<UserData>({
+    name: "",
+    phoneNumber: "",
+    userId: "",
+  });
 
-  if (!fontsLoaded) {
+  useEffect(() => {
+    FirebaseAuth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const resp = await readUserData(user.uid);
+        if (resp instanceof UserNotExistsError) setLoading(false);
+        setLoading(false);
+        setUser(resp);
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  if (loading || !fontsLoaded) {
     return (
       <View style={DashboardStyle.container}>
-        <Text>Loading</Text>
+        <Logo />
       </View>
     );
   }
-  if (!FirebaseAuth.currentUser) {
-    return <AuthComponent />;
-  }
 
   return (
-    <View style={DashboardStyle.container}>
-      <Logo />
-      <GradientText style={DashboardStyle.header}>Let's Start</GradientText>
-      <Text>
-        Your amazing app starts here. Open you favorite code editor and start
-        editing this project.
-      </Text>
-    </View>
+    <>
+      {!user.userId ? (
+        <AuthComponent />
+      ) : (
+        <View style={DashboardStyle.container}>
+          <Logo />
+          <GradientText style={DashboardStyle.header}>
+            Hello {user.name}
+          </GradientText>
+          <Text>
+            Your amazing app starts here. Open you favorite code editor and
+            start editing this project.
+          </Text>
+        </View>
+      )}
+    </>
   );
 };
 

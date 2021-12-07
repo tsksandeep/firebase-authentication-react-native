@@ -15,7 +15,8 @@ import { theme } from "../core/theme";
 import { phoneNumberValidator, nameValidator } from "../helpers/helpers";
 import { FirebaseApp, FirebaseAuth } from "../firebase/config";
 
-const Register = () => {
+const Register = (props: any) => {
+  const registerErr = props.route?.params?.error;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const recaptchaVerifier = useRef(null);
@@ -45,8 +46,14 @@ const Register = () => {
         phoneNumber.value,
         recaptchaVerifier.current
       );
-      navigation.navigate("Otp", { verificationId: verificationId });
+      navigation.navigate("Otp", {
+        page: "register",
+        verificationId: verificationId,
+        name: name.value,
+        phoneNumber: phoneNumber.value,
+      });
     } catch (err) {
+      console.log(err);
       setPhoneNumber({
         ...phoneNumber,
         error: "Sorry we had a technical issue",
@@ -63,6 +70,11 @@ const Register = () => {
         attemptInvisibleVerification={true}
       />
       <BackButton />
+      {registerErr && (
+        <Text style={RegisterStyle.errorHeader}>
+          User doesn't exists. Please Register
+        </Text>
+      )}
       <Logo />
       <GradientText style={RegisterStyle.header}>Create Account</GradientText>
       <TextInput
@@ -93,7 +105,7 @@ const Register = () => {
       </Button>
       <View style={RegisterStyle.row}>
         <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("Login")}>
+        <TouchableOpacity onPress={() => navigation.replace("Login", {})}>
           <Text style={RegisterStyle.link}>Login</Text>
         </TouchableOpacity>
       </View>
@@ -106,9 +118,8 @@ const RegisterStyle = {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     background: white;
-    padding: 0 30px;
+    padding: 150px 30px 0 30px;
   `,
   header: css`
     width: 100%;
@@ -117,6 +128,15 @@ const RegisterStyle = {
     font-size: 40px;
     margin-bottom: 20px;
     padding: 0 10px;
+  `,
+  errorHeader: css`
+    width: 100%;
+    text-align: center;
+    font-family: "Pacifico";
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+    line-height: 34px;
   `,
   row: css`
     flex-direction: row;

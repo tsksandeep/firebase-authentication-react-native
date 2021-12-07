@@ -6,8 +6,9 @@ import { View, Text } from "react-native";
 import { useFonts } from "expo-font";
 
 import Logo from "../components/Logo/Logo";
-import Button from "../components/Button/Button";
 import GradientText from "../components/GradientText/GradientText";
+import { FirebaseAuth } from "../firebase/config";
+import AuthComponent from "../components/Auth/Auth";
 
 const Home = () => {
   let [fontsLoaded] = useFonts({
@@ -17,34 +18,34 @@ const Home = () => {
 
   if (!fontsLoaded) {
     return (
-      <View style={HomeStyle.container}>
+      <View style={DashboardStyle.container}>
         <Text>Loading</Text>
       </View>
     );
   }
+  if (!FirebaseAuth.currentUser) {
+    return <AuthComponent />;
+  }
 
   return (
-    <View style={HomeStyle.container}>
+    <View style={DashboardStyle.container}>
       <Logo />
-      <GradientText style={HomeStyle.header}>Thagaval</GradientText>
-      <Button mode="contained" onPress={() => navigation.navigate("Login")}>
-        Login
-      </Button>
-      <Button mode="outlined" onPress={() => navigation.navigate("Register")}>
-        Sign Up
-      </Button>
+      <GradientText style={DashboardStyle.header}>Let's Start</GradientText>
+      <Text>
+        Your amazing app starts here. Open you favorite code editor and start
+        editing this project.
+      </Text>
     </View>
   );
 };
 
-const HomeStyle = {
+const DashboardStyle = {
   container: css`
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     background: white;
-    padding: 0 30px;
+    padding: 150px 30px 0 30px;
   `,
   header: css`
     width: 100%;

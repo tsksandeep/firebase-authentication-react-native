@@ -15,7 +15,8 @@ import { theme } from "../core/theme";
 import { phoneNumberValidator } from "../helpers/helpers";
 import { FirebaseApp, FirebaseAuth } from "../firebase/config";
 
-const Login = () => {
+const Login = (props: any) => {
+  const loginErr = props.route?.params?.error;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const recaptchaVerifier = useRef(null);
@@ -42,7 +43,10 @@ const Login = () => {
         phoneNumber.value,
         recaptchaVerifier.current
       );
-      navigation.navigate("Otp", { verificationId: verificationId });
+      navigation.navigate("Otp", {
+        page: "login",
+        verificationId: verificationId,
+      });
     } catch (err) {
       setPhoneNumber({
         ...phoneNumber,
@@ -60,6 +64,11 @@ const Login = () => {
         attemptInvisibleVerification={true}
       />
       <BackButton />
+      {loginErr && (
+        <Text style={LoginStyle.errorHeader}>
+          User already exists. Please Login
+        </Text>
+      )}
       <Logo />
       <GradientText style={LoginStyle.header}>Welcome Back</GradientText>
       <TextInput
@@ -78,7 +87,7 @@ const Login = () => {
       </Button>
       <View style={LoginStyle.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("Register")}>
+        <TouchableOpacity onPress={() => navigation.replace("Register", {})}>
           <Text style={LoginStyle.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
@@ -91,9 +100,8 @@ const LoginStyle = {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     background: white;
-    padding: 0 30px;
+    padding: 150px 30px 0 30px;
   `,
   header: css`
     width: 100%;
@@ -103,13 +111,14 @@ const LoginStyle = {
     margin-bottom: 20px;
     padding: 0 10px;
   `,
-  Or: css`
+  errorHeader: css`
     width: 100%;
     text-align: center;
     font-family: "Pacifico";
-    font-size: 20px;
-    padding: 0 10px;
-    margin: 10px 0;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+    line-height: 34px;
   `,
   forgotPassword: css`
     width: 100%;

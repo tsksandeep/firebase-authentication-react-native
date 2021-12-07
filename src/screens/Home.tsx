@@ -10,6 +10,7 @@ import GradientText from "../components/GradientText/GradientText";
 import { FirebaseAuth } from "../firebase/config";
 import AuthComponent from "../components/Auth/Auth";
 import { readUserData, UserData, UserNotExistsError } from "../firebase/db";
+import Button from "../components/Button/Button";
 
 const Home = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -59,6 +60,19 @@ const Home = () => {
             Your amazing app starts here. Open you favorite code editor and
             start editing this project.
           </Text>
+          <Button
+            mode="outlined"
+            onPress={async () => {
+              await FirebaseAuth.signOut();
+              setUser({
+                name: "",
+                phoneNumber: "",
+                userId: "",
+              });
+            }}
+          >
+            Logout
+          </Button>
         </View>
       )}
     </>

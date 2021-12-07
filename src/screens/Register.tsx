@@ -21,7 +21,7 @@ const Register = (props: any) => {
 
   const recaptchaVerifier = useRef(null);
   const [name, setName] = useState({ value: "", error: "" });
-  const [phoneNumber, setPhoneNumber] = useState({ value: "", error: "" });
+  const [phoneNumber, setPhoneNumber] = useState({ value: "+91 ", error: "" });
 
   const onSignUpPressed = async () => {
     const nameError = nameValidator(name.value);

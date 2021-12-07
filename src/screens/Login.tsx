@@ -20,7 +20,7 @@ const Login = (props: any) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const recaptchaVerifier = useRef(null);
-  const [phoneNumber, setPhoneNumber] = useState({ value: "", error: "" });
+  const [phoneNumber, setPhoneNumber] = useState({ value: "+91 ", error: "" });
 
   const onLoginPressed = async () => {
     const phoneNumberError = phoneNumberValidator(phoneNumber.value);

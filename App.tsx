@@ -7,14 +7,19 @@ import Home from "./src/screens/Home";
 import Otp from "./src/screens/Otp";
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register";
+import Request from "./src/screens/Request";
 
 import { theme } from "./src/core/theme";
-import { UserExistsError, UserNotExistsError } from "./src/firebase/db";
 
 declare global {
   type RootStackParamList = {
     // undefined is used as we are not passing parameters
-    Home: undefined;
+    Home: {
+      // message should be always in the format
+      // <Random message number>: <Your message>
+      // Random message number is used to render the state properly
+      message?: string;
+    };
     Otp: {
       page: string;
       verificationId: string;
@@ -22,11 +27,12 @@ declare global {
       phoneNumber?: string;
     };
     Login: {
-      error?: UserNotExistsError;
+      error?: Error;
     };
     Register: {
-      error?: UserExistsError;
+      error?: Error;
     };
+    Request: undefined;
   };
 }
 
@@ -46,6 +52,7 @@ const App = () => {
           <Stack.Screen name="Otp" component={Otp} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Request" component={Request} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

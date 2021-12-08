@@ -1,4 +1,9 @@
 import { ref, set, get, child } from "firebase/database";
+import {
+  RequestExistsError,
+  UserExistsError,
+  UserNotExistsError,
+} from "../errors/errors";
 
 import { FirebaseDB } from "./config";
 
@@ -8,19 +13,26 @@ export interface UserData {
   phoneNumber?: string;
 }
 
-export class UserExistsError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    Object.setPrototypeOf(this, UserExistsError.prototype);
-  }
+export interface RequestData {
+  name: string;
+  phoneNumber: string;
+  info: string;
+  location: string;
+  deliveryTime: string;
+  notes: string;
 }
 
-export class UserNotExistsError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    Object.setPrototypeOf(this, UserNotExistsError.prototype);
-  }
-}
+const getHash = (str: string) => {
+  return [].reduce.call(
+    str,
+    function (hash: any, i: any) {
+      var chr = i.charCodeAt(0);
+      hash = (hash << 5) - hash + chr;
+      return hash | 0;
+    },
+    0
+  );
+};
 
 const dbRef = ref(FirebaseDB);
 
@@ -53,4 +65,33 @@ export const readUserData = async (userId: string): Promise<any> => {
     name: snapshot.val().name,
     phoneNumber: snapshot.val().phoneNumber,
   };
+};
+
+export const writeRequestData = async (
+  requestData: RequestData
+): Promise<any> => {
+  const id = getHash(
+    requestData.name +
+      requestData.phoneNumber +
+      requestData.info +
+      requestData.location +
+      requestData.deliveryTime +
+      requestData.notes
+  );
+
+  const snapshot = await get(child(dbRef, `requests/${id}`));
+  if (snapshot.exists()) {
+    return new RequestExistsError(`request ${id} already exists`);
+  }
+
+  await set(ref(FirebaseDB, `requests/${id}`), {
+    name: requestData.name,
+    phoneNumber: requestData.phoneNumber,
+    info: requestData.info,
+    location: requestData.location,
+    deliveryTime: requestData.deliveryTime,
+    notes: requestData.notes,
+  });
+
+  return null;
 };

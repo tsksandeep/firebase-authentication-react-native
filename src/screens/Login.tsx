@@ -14,6 +14,23 @@ import GradientText from "../components/GradientText/GradientText";
 import { theme } from "../core/theme";
 import { phoneNumberValidator } from "../helpers/helpers";
 import { FirebaseApp, FirebaseAuth } from "../firebase/config";
+import { InvalidOtpError, UserExistsError } from "../errors/errors";
+
+const getErrText = (loginErr: Error): string => {
+  if (!loginErr) {
+    return "";
+  }
+
+  if (loginErr instanceof UserExistsError) {
+    return "User already exists. Please Login";
+  }
+
+  if (loginErr instanceof InvalidOtpError) {
+    return "Invalid OTP. Login again";
+  }
+
+  return "Sorry we had a technical issue";
+};
 
 const Login = (props: any) => {
   const loginErr = props.route?.params?.error;
@@ -44,7 +61,7 @@ const Login = (props: any) => {
         recaptchaVerifier.current
       );
       navigation.navigate("Otp", {
-        page: "login",
+        page: "Login",
         verificationId: verificationId,
       });
     } catch (err) {
@@ -65,9 +82,7 @@ const Login = (props: any) => {
       />
       <BackButton />
       {loginErr && (
-        <Text style={LoginStyle.errorHeader}>
-          User already exists. Please Login
-        </Text>
+        <Text style={LoginStyle.errorHeader}>{getErrText(loginErr)}</Text>
       )}
       <Logo />
       <GradientText style={LoginStyle.header}>Welcome Back</GradientText>

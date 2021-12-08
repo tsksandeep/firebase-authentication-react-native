@@ -14,12 +14,12 @@ import Logo from "../components/Logo/Logo";
 import BackButton from "../components/BackButton/BackButton";
 import GradientText from "../components/GradientText/GradientText";
 import { FirebaseAuth } from "../firebase/config";
+import { readUserData, writeUserData } from "../firebase/db";
 import {
-  readUserData,
+  InvalidOtpError,
   UserExistsError,
   UserNotExistsError,
-  writeUserData,
-} from "../firebase/db";
+} from "../errors/errors";
 
 const Otp = (props: any) => {
   const page = props.route.params.page;
@@ -70,10 +70,12 @@ const Otp = (props: any) => {
         FirebaseAuth,
         PhoneAuthProvider.credential(verificationId, code)
       );
-      if (page === "register") registerCb(userCredential);
-      if (page === "login") loginCb(userCredential);
+      if (page === "Register") registerCb(userCredential);
+      if (page === "Login") loginCb(userCredential);
     } catch (err) {
-      console.log(err);
+      navigation.navigate(page, {
+        error: new InvalidOtpError("Invalid OTP"),
+      });
     }
   };
 
@@ -94,7 +96,9 @@ const Otp = (props: any) => {
       />
       <TouchableOpacity
         style={OtpStyleComponent.resendOtpWrapper}
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate(page, {});
+        }}
       >
         <Text style={OtpStyleComponent.resendOtp}>Resend otp</Text>
       </TouchableOpacity>

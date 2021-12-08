@@ -14,6 +14,23 @@ import GradientText from "../components/GradientText/GradientText";
 import { theme } from "../core/theme";
 import { phoneNumberValidator, nameValidator } from "../helpers/helpers";
 import { FirebaseApp, FirebaseAuth } from "../firebase/config";
+import { InvalidOtpError, UserNotExistsError } from "../errors/errors";
+
+const getErrText = (registerErr: Error): string => {
+  if (!registerErr) {
+    return "";
+  }
+
+  if (registerErr instanceof UserNotExistsError) {
+    return "User does not exists. Please register";
+  }
+
+  if (registerErr instanceof InvalidOtpError) {
+    return "Invalid OTP. Register again";
+  }
+
+  return "Sorry we had a technical issue";
+};
 
 const Register = (props: any) => {
   const registerErr = props.route?.params?.error;
@@ -47,13 +64,12 @@ const Register = (props: any) => {
         recaptchaVerifier.current
       );
       navigation.navigate("Otp", {
-        page: "register",
+        page: "Register",
         verificationId: verificationId,
         name: name.value,
         phoneNumber: phoneNumber.value,
       });
     } catch (err) {
-      console.log(err);
       setPhoneNumber({
         ...phoneNumber,
         error: "Sorry we had a technical issue",
@@ -71,9 +87,7 @@ const Register = (props: any) => {
       />
       <BackButton />
       {registerErr && (
-        <Text style={RegisterStyle.errorHeader}>
-          User doesn't exists. Please Register
-        </Text>
+        <Text style={RegisterStyle.errorHeader}>{getErrText(registerErr)}</Text>
       )}
       <Logo />
       <GradientText style={RegisterStyle.header}>Create Account</GradientText>

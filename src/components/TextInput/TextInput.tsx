@@ -6,6 +6,13 @@ import { theme } from "../../core/theme";
 import TextInputStyleComponent from "./TextInput.style";
 
 export default function TextInput(props: any) {
+  var numberOfLines = 1;
+  var isMultiline = false;
+  if (props?.multiline && props?.numberOfLines) {
+    isMultiline = true;
+    numberOfLines = props?.numberOfLines;
+  }
+
   return (
     <View style={TextInputStyleComponent.container}>
       <Input
@@ -13,6 +20,8 @@ export default function TextInput(props: any) {
         selectionColor={theme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
+        multiline={isMultiline}
+        numberOfLines={numberOfLines}
         {...props}
       />
       {props.description && !props.errorText ? (

@@ -10,6 +10,7 @@ const AuthStyleComponent = {
   `,
   header: css`
     width: 100%;
+    min-width: 220px;
     text-align: center;
     font-family: "Pacifico";
     font-size: 40px;

@@ -5,6 +5,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -15,6 +16,8 @@ import Button from "../components/Button/Button";
 import { RequestData, writeRequestData } from "../firebase/db";
 import { RequestExistsError } from "../errors/errors";
 import { phoneNumberValidator } from "../helpers/helpers";
+
+const keyboardVerticalOffset = Platform.OS === 'ios' ? -50 : 0
 
 const Request = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -111,7 +114,11 @@ const Request = () => {
 
   return (
     <SafeAreaView style={RequestStyle.container}>
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={keyboardVerticalOffset}
+        style={{ flex: 1 }}
+      >
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 20 }}
           ref={scrollViewRef}

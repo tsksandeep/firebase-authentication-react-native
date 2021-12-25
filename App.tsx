@@ -1,4 +1,5 @@
 import React from "react";
+import { LogBox } from "react-native";
 import { Provider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -10,6 +11,9 @@ import Register from "./src/screens/Register";
 import Request from "./src/screens/Request";
 
 import { theme } from "./src/core/theme";
+
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 declare global {
   type RootStackParamList = {

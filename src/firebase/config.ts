@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAZcO7i_YGU34iktBMlZYRnwUTlJHCjKTo",
-  authDomain: "thagaval-dbd6f.firebaseapp.com",
-  databaseURL: "https://thagaval-dbd6f-default-rtdb.firebaseio.com",
-  projectId: "thagaval-dbd6f",
-  storageBucket: "thagaval-dbd6f.appspot.com",
-  messagingSenderId: "670329321676",
-  appId: "1:670329321676:web:a2e5423d7c2a1e7602ea69",
+  apiKey: "<your_app_api_key>",
+  authDomain: "<your_app_auth_domain>",
+  databaseURL: "<your_app_db_url>",
+  projectId: "<your_app_project_id>",
+  storageBucket: "<your_app_storage_bucket>",
+  messagingSenderId: "<your_app_messaging_sender_id>",
+  appId: "<your_app_id>",
 };
 
 export const FirebaseApp = initializeApp(firebaseConfig);
